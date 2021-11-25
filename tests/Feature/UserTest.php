@@ -60,7 +60,7 @@ class UserTest extends TestCase
         $this->patchJson(route('users.update', $this->user), array_merge(
             $this->user->only('first_name', 'last_name', 'email', 'phone'),
             ['phone' => '(04) 0504 2040']
-        ));
+        ))->assertRedirect(route('users.edit'));
 
         $this->assertDatabaseHas('users', [
             'phone' => '+61405042040',
@@ -79,56 +79,6 @@ class UserTest extends TestCase
             $payload
         ))
             ->assertJsonValidationErrors($errors);
-    }
-
-    /** @test */
-    public function it_store_address()
-    {
-        $this->patchJson(route('users.update', $this->user), array_merge(
-            $this->user->only('first_name', 'last_name', 'email', 'phone'),
-            [
-                'addresses' => [
-                    [
-                        'address_line_1' => '1 Testy Ave',
-                        'address_line_2' => '',
-                        'suburb' => 'Testy Vil',
-                        'state' => 'McTesty',
-                        'postcode' => 4200,
-                        'country' => 'Australia',
-                    ],
-                ],
-            ]
-        ))->assertRedirect();
-
-        $this->assertDatabaseHas('addresses', [
-            'user_id' => $this->user->id,
-            'address_line_1' => '1 Testy Ave',
-            'address_line_2' => null,
-            'suburb' => 'Testy Vil',
-            'state' => 'McTesty',
-            'postcode' => 4200,
-            'country' => 'Australia',
-        ]);
-    }
-
-    /** @test */
-    public function it_validates_addresses()
-    {
-        $this->patchJson(route('users.update', $this->user), array_merge(
-            $this->user->only('first_name', 'last_name', 'email', 'phone'),
-            [
-                'addresses' => [
-                    [
-                        'address_line_1' => '1 Testy Ave',
-                    ],
-                ],
-            ]
-        ))->assertJsonValidationErrors([
-            'addresses.0.suburb',
-            'addresses.0.state',
-            'addresses.0.postcode',
-            'addresses.0.country',
-        ]);
     }
 
     public function userUpdateValidation()

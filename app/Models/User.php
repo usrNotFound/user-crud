@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Arr;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,20 +33,5 @@ class User extends Authenticatable
         return $this->attributes['password'] = Hash::needsRehash($password)
             ? Hash::make($password)
             : $password;
-    }
-
-    public function updateWithAddresses($attributes)
-    {
-        $this->update(Arr::except($attributes, 'addresses'));
-
-        if (Arr::has($attributes, 'addresses')) {
-            $this->createAddresses(collect($attributes['addresses']));
-        }
-        return $this;
-    }
-
-    public function createAddresses(Collection $addresses)
-    {
-        return $this->addresses()->saveMany($addresses->mapInto(Address::class));
     }
 }

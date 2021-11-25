@@ -30,13 +30,6 @@ class UserRequest extends FormRequest
             'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($this->user())],
             'phone' => ['sometimes', app(PhoneValidator::class), fn() => !$this->phoneProcessingFailed],
             'password' => [$required, 'confirmed'],
-            'addresses' => ['sometimes', 'array'],
-            'addresses.*.address_line_1' => ['sometimes'],
-            'addresses.*.address_line_2' => ['sometimes'],
-            'addresses.*.suburb' => ['required_with:addresses.*.address_line_1'],
-            'addresses.*.state' => ['required_with:addresses.*.address_line_1'],
-            'addresses.*.postcode' => ['required_with:addresses.*.address_line_1'],
-            'addresses.*.country' => ['required_with:addresses.*.address_line_1'],
         ];
     }
 

@@ -6,6 +6,9 @@ use App\Http\Controllers\UserController;
 
 Auth::routes(['reset' => false]);
 
+Route::get('/', [UserController::class, 'edit'])
+    ->middleware('auth');
+
 Route::get('my-profile', [UserController::class, 'edit'])
     ->name('users.edit')
     ->middleware('auth');

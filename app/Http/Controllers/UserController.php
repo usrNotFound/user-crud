@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Inertia\Inertia;
 use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
     public function edit()
     {
-
+        return Inertia::render('Users/Edit', [
+            'user' => auth()->user()->load('addresses'),
+        ]);
     }
 
     public function update(UserRequest $request)
     {
         auth()->user()
-            ->updateWithAddresses($request->validated());
+            ->update($request->validated());
 
         return redirect()->route('users.edit');
     }
