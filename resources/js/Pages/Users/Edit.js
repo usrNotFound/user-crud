@@ -1,7 +1,9 @@
 import React from 'react';
 import Error from "../../Components/Error";
 import { BeatLoader } from "react-spinners";
-import { useForm } from "@inertiajs/inertia-react";
+import { InertiaLink, useForm } from "@inertiajs/inertia-react";
+import AddressList from "../../Components/AddressList";
+import { Inertia } from "@inertiajs/inertia";
 
 const Edit = ({user}) => {
     const {data, setData, patch, processing, errors, clearErrors} = useForm({
@@ -10,6 +12,8 @@ const Edit = ({user}) => {
         email : user.email,
         password : '',
     });
+
+    const handleDelete = async (url) => window.confirm('Are you sure?') ? Inertia.delete(url) : '';
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -46,7 +50,7 @@ const Edit = ({user}) => {
                                         type="first_name"
                                         autoComplete="first_name"
                                         required
-                                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
                                         value={data.first_name}
                                         onChange={e => setData('first_name', e.target.value)}
                                     />
@@ -64,7 +68,7 @@ const Edit = ({user}) => {
                                         type="last_name"
                                         autoComplete="last_name"
                                         required
-                                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
                                         value={data.last_name}
                                         onChange={e => setData('last_name', e.target.value)}
                                     />
@@ -84,7 +88,7 @@ const Edit = ({user}) => {
                                     type="email"
                                     autoComplete="email"
                                     required
-                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
                                     value={data.email}
                                     onChange={e => setData('email', e.target.value)}
                                 />
@@ -102,7 +106,7 @@ const Edit = ({user}) => {
                                     name="password"
                                     type="password"
                                     autoComplete="current-password"
-                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
                                     value={data.password}
                                     onChange={e => setData('password', e.target.value)}
                                 />
@@ -119,7 +123,7 @@ const Edit = ({user}) => {
                                     id="password_confirmation"
                                     name="password_confirmation"
                                     type="password"
-                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
                                     value={data.password_confirmation}
                                     onChange={e => setData('password_confirmation', e.target.value)}
                                 />
@@ -130,7 +134,7 @@ const Edit = ({user}) => {
                         <div className="flex justify-end">
                             <button
                                 type="submit"
-                                className="bg-indigo-600 border border-transparent flex-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 font-medium hover:bg-indigo-700 justify-center md:flex-none px-4 py-2 rounded-md shadow-sm text-sm text-white"
+                                className="bg-green-600 border border-transparent flex-1 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 font-medium hover:bg-green-700 justify-center md:flex-none px-4 py-2 rounded-md shadow-sm text-sm text-white"
                                 disabled={processing}
                             >
                                 {processing && (
@@ -142,6 +146,36 @@ const Edit = ({user}) => {
                             </button>
                         </div>
                     </form>
+
+                    <div className="flex items-baseline justify-between">
+                        <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4 mt-20">Addresses</h3>
+                        <InertiaLink
+                            href={`users/${user.id}/addresses/create`}
+                            className="bg-green-600 border border-transparent flex-1 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 font-medium hover:bg-green-700 justify-center md:flex-none px-4 py-2 rounded-md shadow-sm text-sm text-white"
+                        >Add</InertiaLink>
+                    </div>
+                    <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200"/>
+                    <div>
+                        {!user.addresses.length && (
+                            <div>No address found in your profile.</div>
+                        )}
+                        {!!user.addresses.length && user.addresses.map(address => (
+                                <AddressList address={address} key={address.id}>
+                                    <div className="flex">
+                                        <InertiaLink
+                                            href={`/users/${user.id}/addresses/${address.id}/edit`}
+                                            className="mr-4 bg-green-600 border border-transparent flex-1 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 font-medium hover:bg-green-700 justify-center md:flex-none px-4 py-2 rounded-md shadow-sm text-sm text-white"
+                                        >Edit</InertiaLink>
+                                        <button
+                                            onClick={() => handleDelete(`/users/${user.id}/addresses/${address.id}/`)}
+                                            className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                                        >Delete
+                                        </button>
+                                    </div>
+                                </AddressList>
+                            )
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

@@ -23,7 +23,7 @@ class CreateAddressesTable extends Migration
             $table->string('suburb');
             $table->string('state');
             $table->integer('postcode');
-            $table->integer('country');
+            $table->string('country');
             $table->timestamps();
         });
     }

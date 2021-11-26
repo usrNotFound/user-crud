@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
+use Inertia\Testing\Assert;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 
 class UserTest extends TestCase
@@ -34,7 +35,8 @@ class UserTest extends TestCase
     public function it_shows_update_user_details_when_logged_in()
     {
         $this->get(route('users.edit'))
-            ->assertSuccessful();
+            ->assertSuccessful()
+            ->assertInertia(fn(Assert $assert) => $assert->component('Users/Edit'));
     }
 
     /** @test */
