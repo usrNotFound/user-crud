@@ -5,8 +5,8 @@ import { InertiaLink, useForm } from "@inertiajs/inertia-react";
 import AddressList from "../../Components/AddressList";
 import { Inertia } from "@inertiajs/inertia";
 
-const Edit = ({user}) => {
-    const {data, setData, patch, processing, errors, clearErrors} = useForm({
+const Edit = ({user, csrfToken}) => {
+    const {data, setData, patch, post, processing, errors, clearErrors} = useForm({
         first_name : user.first_name,
         last_name : user.last_name,
         email : user.email,
@@ -32,12 +32,12 @@ const Edit = ({user}) => {
                 <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                     <form className="space-y-6" onSubmit={handleSubmit} method="POST" onChange={clearErrors}>
 
-                        <div>
+                        <div className="flex items-baseline justify-between">
                             <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">Personal Information</h3>
+                            <InertiaLink href="/logout">Logout</InertiaLink>
                         </div>
 
-                        <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200">
-                        </div>
+                        <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200"/>
                         <div className="md:flex -m-4">
                             <div className="p-4 flex-1">
                                 <label htmlFor="first_name" className="block text-sm font-medium text-gray-700">
@@ -151,8 +151,8 @@ const Edit = ({user}) => {
                         <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4 mt-20">Addresses</h3>
                         <InertiaLink
                             href={`users/${user.id}/addresses/create`}
-                            className="bg-green-600 border border-transparent flex-1 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 font-medium hover:bg-green-700 justify-center md:flex-none px-4 py-2 rounded-md shadow-sm text-sm text-white"
-                        >Add</InertiaLink>
+                            className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            Add a new Address</InertiaLink>
                     </div>
                     <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200"/>
                     <div>
@@ -164,11 +164,11 @@ const Edit = ({user}) => {
                                     <div className="flex">
                                         <InertiaLink
                                             href={`/users/${user.id}/addresses/${address.id}/edit`}
-                                            className="mr-4 bg-green-600 border border-transparent flex-1 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 font-medium hover:bg-green-700 justify-center md:flex-none px-4 py-2 rounded-md shadow-sm text-sm text-white"
+                                            className="mr-2 bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                                         >Edit</InertiaLink>
                                         <button
                                             onClick={() => handleDelete(`/users/${user.id}/addresses/${address.id}/`)}
-                                            className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                                            className="bg-red-600 py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                                         >Delete
                                         </button>
                                     </div>

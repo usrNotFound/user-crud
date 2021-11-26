@@ -19,7 +19,7 @@ class UserAddressRequest extends FormRequest
             'address_line_2' => ['sometimes'],
             'suburb' => ['required'],
             'state' => ['required'],
-            'postcode' => ['required'],
+            'postcode' => ['required', 'numeric'],
             'country' => ['required'],
         ];
     }

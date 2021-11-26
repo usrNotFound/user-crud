@@ -3,9 +3,13 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\UserAddressController;
 
-Auth::routes(['reset' => false]);
+Auth::routes(['reset' => false, 'logout' => false]);
+
+Route::get('logout', [LoginController::class, 'logout'])
+    ->name('logout');
 
 Route::get('/', [UserController::class, 'edit'])
     ->middleware('auth');

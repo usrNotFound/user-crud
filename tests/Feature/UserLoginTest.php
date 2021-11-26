@@ -43,6 +43,20 @@ class UserLoginTest extends TestCase
             ->assertRedirect(route('users.edit'));
     }
 
+    /** @test */
+    public function it_logs_out_user()
+    {
+        $user = User::factory()
+            ->create(['email' => 'user@email.com']);
+
+        $this->actingAs($user);
+
+        $this->get(route('logout'))
+            ->assertRedirect();
+
+        $this->assertGuest();
+    }
+
     /**
      * @test
      * @dataProvider loginValidation
