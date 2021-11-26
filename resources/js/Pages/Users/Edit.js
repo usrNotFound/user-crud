@@ -157,7 +157,7 @@ const Edit = ({user, csrfToken}) => {
                     <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200"/>
                     <div>
                         {!user.addresses.length && (
-                            <div>No address found in your profile.</div>
+                            <div className="mt-4">No address found in your profile.</div>
                         )}
                         {!!user.addresses.length && user.addresses.map(address => (
                                 <AddressList address={address} key={address.id}>
