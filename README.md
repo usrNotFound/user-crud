@@ -15,3 +15,8 @@
 - run asset built `npm run dev`
 
 **Note:** As this is laravel project once can simple run this project by runnign the command `php artisan serve`
+
+### Test
+Both backend and frontend code is covered by test (Phpunit and Jest)
+- For backend test please run `phpunit`
+- For frontend test please run `jest`
