@@ -23,6 +23,7 @@ class PhoneNumberTest extends TestCase
     /** @test */
     public function it_returns_false_if_phone_number_is_invalid()
     {
+        // test phone number
         $this->assertTrue(
             $this->app['validator']
                 ->make(['phone' => '7777777'], ['phone' => [app(PhoneValidator::class)]])
